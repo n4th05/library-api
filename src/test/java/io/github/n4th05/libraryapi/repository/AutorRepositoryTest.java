@@ -1,6 +1,7 @@
 package io.github.n4th05.libraryapi.repository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -45,5 +46,33 @@ public class AutorRepositoryTest {
             repository.save(autorEncontrado);
 
         }
+    }
+
+    @Test
+    public void listarTest(){
+        List<Autor> listaAutores = repository.findAll();
+        listaAutores.forEach(System.out::println);
+
+    }
+
+    @Test
+    public void countTest(){
+        System.out.println("Contagem de Autores: " + repository.count());
+    }
+
+    //Teste de deletar por ID
+    @Test
+    public void deletePorIdTest(){
+        var id = UUID.fromString("35a05c8e-0484-4533-905a-ab422001efa5");
+
+        repository.deleteById(id);
+    }
+
+    // Teste de deletar por objeto
+    @Test
+    public void deletePorObjetoTest(){
+        var id = UUID.fromString("034d1b4e-0438-41d5-925d-bbce2f968d99");
+        var maria = repository.findById(id).get();
+        repository.delete(maria);
     }
 }
