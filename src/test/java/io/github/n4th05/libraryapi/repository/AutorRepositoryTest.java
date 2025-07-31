@@ -128,4 +128,26 @@ public class AutorRepositoryTest {
 
         autor.getLivros().forEach(System.out::println);
     }
+
+    @Test
+    void pesquisaPorTituloTest(){
+        List<Livro> lista = livroRepository.findByTitulo("O roubo da casa assombrada testee");
+        lista.forEach(System.out::println);
+    }
+
+    @Test
+    void pesquisaPorIsbnTest(){
+        List<Livro> lista = livroRepository.findByIsbn("9999-84874");
+        lista.forEach(System.out::println);
+    }
+
+    @Test
+    void pesquisaPorTituloEPrecoTest(){
+
+        var preco = BigDecimal.valueOf(100);
+        var titulo = "Terceiro Livro"; 
+
+        List<Livro> lista = livroRepository.findByTituloAndPreco(titulo, preco);
+        lista.forEach(System.out::println);
+    }
 }
