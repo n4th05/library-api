@@ -115,7 +115,7 @@ public class AutorRepositoryTest {
        // livroRepository.saveAll(autor.getLivros());
     }
 
-    //Melhor forma de buscar de carregar os dados LAZY de uma entidade, principalmente quando for LAZY. (Não utilize EAGER).
+         //Melhor forma de buscar de carregar os dados LAZY de uma entidade, principalmente quando for LAZY. (Não utilize EAGER).
     @Test
     void listarLivrosAutor(){
         var id = UUID.fromString("ac37fa37-ba66-4802-a2c5-50d123e5977c");
@@ -129,25 +129,4 @@ public class AutorRepositoryTest {
         autor.getLivros().forEach(System.out::println);
     }
 
-    @Test
-    void pesquisaPorTituloTest(){
-        List<Livro> lista = livroRepository.findByTitulo("O roubo da casa assombrada testee");
-        lista.forEach(System.out::println);
-    }
-
-    @Test
-    void pesquisaPorIsbnTest(){
-        List<Livro> lista = livroRepository.findByIsbn("9999-84874");
-        lista.forEach(System.out::println);
-    }
-
-    @Test
-    void pesquisaPorTituloEPrecoTest(){
-
-        var preco = BigDecimal.valueOf(100);
-        var titulo = "Terceiro Livro"; 
-
-        List<Livro> lista = livroRepository.findByTituloAndPreco(titulo, preco);
-        lista.forEach(System.out::println);
-    }
 }
