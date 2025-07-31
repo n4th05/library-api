@@ -1,6 +1,8 @@
 package io.github.n4th05.libraryapi.repository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -10,12 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import io.github.n4th05.libraryapi.model.Autor;
+import io.github.n4th05.libraryapi.model.GeneroLivro;
+import io.github.n4th05.libraryapi.model.Livro;
 
 @SpringBootTest
 public class AutorRepositoryTest {
 
     @Autowired
     AutorRepository repository;
+
+    @Autowired
+    LivroRepository livroRepository;
     
     @Test
     public void salvarTest(){
@@ -74,5 +81,51 @@ public class AutorRepositoryTest {
         var id = UUID.fromString("034d1b4e-0438-41d5-925d-bbce2f968d99");
         var maria = repository.findById(id).get();
         repository.delete(maria);
+    }
+
+    @Test
+    void salvarAutorComLivrosTest(){
+        Autor autor = new Autor();
+		autor.setNome("Antonio Testee");
+		autor.setNacionalidade("Americado");
+		autor.setDataNascimento(LocalDate.of(1970, 8, 5));
+
+        Livro livro = new Livro();
+        livro.setIsbn("20887-84874");
+        livro.setPreco(BigDecimal.valueOf(204));
+        livro.setGenero(GeneroLivro.MISTERIO);
+        livro.setTitulo("O roubo da casa assombrada testee");
+        livro.setDataPublicacao(LocalDate.of(1999, 1, 2));
+        livro.setAutor(autor);
+
+        Livro livro2 = new Livro();
+        livro2.setIsbn("9999-84874");
+        livro2.setPreco(BigDecimal.valueOf(650));
+        livro2.setGenero(GeneroLivro.MISTERIO);
+        livro2.setTitulo("O roubo da casa assombrada");
+        livro2.setDataPublicacao(LocalDate.of(2000, 1, 2));
+        livro2.setAutor(autor);
+
+        autor.setLivros(new ArrayList<>());
+        autor.getLivros().add(livro);
+        autor.getLivros().add(livro2);
+
+        repository.save(autor);
+
+       // livroRepository.saveAll(autor.getLivros());
+    }
+
+    //Melhor forma de buscar de carregar os dados LAZY de uma entidade, principalmente quando for LAZY. (Não utilize EAGER).
+    @Test
+    void listarLivrosAutor(){
+        var id = UUID.fromString("ac37fa37-ba66-4802-a2c5-50d123e5977c");
+        var autor = repository.findById(id).get();
+
+        // buscar os livros do autor
+
+     List<Livro> livrosLista = livroRepository.findByAutor(autor);
+     autor.setLivros(livrosLista);
+
+        autor.getLivros().forEach(System.out::println);
     }
 }
