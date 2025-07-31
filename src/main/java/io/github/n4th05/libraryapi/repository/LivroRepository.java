@@ -7,8 +7,10 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import io.github.n4th05.libraryapi.model.Autor;
+import io.github.n4th05.libraryapi.model.GeneroLivro;
 import io.github.n4th05.libraryapi.model.Livro;
 
 /*
@@ -63,4 +65,13 @@ public interface LivroRepository extends JpaRepository<Livro, UUID>{
             """)
     List<String> listarGenerosAutoresBrasileiros();
 
+    // Named parameters -> Parâmetros nomeados
+    @Query (" select l from Livro l where l.genero = :genero order by :paramOrdenacao")
+    List<Livro> findByGenero(
+        @Param("genero") GeneroLivro generoLivro,
+        @Param("paramOrdenacao") String paramOrdenacao);
+
+    // Positional parameters -> Parâmetros posicionais
+    @Query (" select l from Livro l where l.genero = ?1 order by ?2")
+    List<Livro> findByGeneroPositionalParameters(GeneroLivro generoLivro, String paramOrdenacao);
 }
