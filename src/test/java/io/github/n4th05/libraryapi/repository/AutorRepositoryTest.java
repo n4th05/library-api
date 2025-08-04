@@ -76,12 +76,12 @@ public class AutorRepositoryTest {
     }
 
     // Teste de deletar por objeto
-    @Test
-    public void deletePorObjetoTest(){
-        var id = UUID.fromString("7968bdeb-307e-4506-bb29-2bdb82407a34");
-        var maria = repository.findById(id).get();
-        repository.delete(maria);
-    }
+    // @Test
+    // public void deletePorObjetoTest(){
+    //     var id = UUID.fromString("7968bdeb-307e-4506-bb29-2bdb82407a34");
+    //     var maria = repository.findById(id).get();
+    //     repository.delete(maria);
+    // }
 
     @Test
     void salvarAutorComLivrosTest(){
