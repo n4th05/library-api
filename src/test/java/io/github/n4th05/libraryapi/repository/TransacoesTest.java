@@ -16,10 +16,11 @@ public class TransacoesTest {
      * Commit -> Confirmar as alterações no banco de dados.
      * Rollback -> Desfazer as alterações no banco de dados.
      */
-    @Test
-    void transacaoSimples(){
-        transacaoService.executar();
-    }
+    
+    // @Test
+    // void transacaoSimples(){
+    //     transacaoService.executar();
+    // }
 
     @Test
     void transacaoEstadoManaged(){

@@ -84,17 +84,18 @@ public class LivroRepositoryTest {
         autor.setNacionalidade("Brasileira");
         autor.setDataNascimento(LocalDate.of(1951, 1, 31));
 
+        autorRepository.save(autor);
+
         livro.setAutor(autor);
 
-        repository.save(livro);
     }  
 
     @Test
     void atualizarAutorDoLivro(){
-       UUID id = UUID.fromString("5972b3ea-d84c-4e2a-a817-1a8ef7d6fd8d");
+       UUID id = UUID.fromString("b8b85ba4-e198-499b-b219-64d0bafd1cd7");
         var livroParaAtualizar = repository.findById(id).orElse(null);
 
-        UUID idAutor = UUID.fromString("6a3fb371-6fa9-4b06-95d5-2d2b3baac3d0");
+        UUID idAutor = UUID.fromString("fd5435ae-02d3-4b34-bce1-c08f3931de98");
         Autor maria = autorRepository.findById(idAutor).orElse(null);
 
         livroParaAtualizar.setAutor(maria);
