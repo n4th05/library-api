@@ -1,12 +1,18 @@
 package io.github.n4th05.libraryapi.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,7 +27,8 @@ import lombok.ToString;
 @Table(name = "autor", schema = "public")
 @Getter
 @Setter
-@ToString(exclude = "livros") // Exclui a lista de livros na representação do autor para evitar loops infinitos.
+@ToString(exclude = {"livros"}) // Exclui a lista de livros na representação do autor para evitar loops infinitos.
+@EntityListeners(AuditingEntityListener.class) // Essa entidade vai ter escuta automática de eventos, como quando foi criada e quando foi modificada.
 public class Autor {
 
     @Id
@@ -41,6 +48,16 @@ public class Autor {
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Livro> livros; // Lista de livros associados a este autor.
 
+    @CreatedDate // Quando você salvar um novo autor, o dataCadastro será preenchido automaticamente.
+    @Column (name= "data_cadastro")
+    private LocalDateTime dataCadastro;
+
+    @LastModifiedDate // Quando você atualizar o autor, o dataAtualizacao será atualizado automaticamente.
+    @Column (name= "data_atualizacao")
+    private LocalDateTime dataAtualizacao;
+
+    @Column (name = "id_usuario")
+    private UUID idUsuario;
     
 // Sobre ter construtor ou não: No Java, se você não tiver um construtor na classe, automaticamente ele vai ter um construtor vazio.
 }

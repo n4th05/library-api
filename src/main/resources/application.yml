@@ -9,7 +9,8 @@ spring:
     jpa:
         show-sql: true
         hibernate:
-            ddl-auto: update # Mas não é recomendado para usar em produção.
+           # ddl-auto: update = Mas não é recomendado para usar em produção.
+            ddl-auto: none
         properties:
             hibernate:
                 format_sql: true  # Altera o formato do SQL para ser mais legível no console.
