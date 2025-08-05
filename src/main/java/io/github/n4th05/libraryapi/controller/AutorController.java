@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import io.github.n4th05.libraryapi.Service.AutorService;
 import io.github.n4th05.libraryapi.controller.dto.AutorDTO;
 import io.github.n4th05.libraryapi.model.Autor;
+import io.github.n4th05.libraryapi.service.AutorService;
 
 @RestController
 @RequestMapping("/autores")

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import io.github.n4th05.libraryapi.Service.TransacaoService;
+import io.github.n4th05.libraryapi.service.TransacaoService;
 
 @SpringBootTest
 public class TransacoesTest {

@@ -1,4 +1,4 @@
-package io.github.n4th05.libraryapi.Service;
+package io.github.n4th05.libraryapi.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
