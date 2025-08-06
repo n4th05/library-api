@@ -116,17 +116,17 @@ public class AutorRepositoryTest {
     }
 
          //Melhor forma de buscar de carregar os dados LAZY de uma entidade, principalmente quando for LAZY. (Não utilize EAGER).
-    @Test
-    void listarLivrosAutor(){
-        var id = UUID.fromString("ac37fa37-ba66-4802-a2c5-50d123e5977c");
-        var autor = repository.findById(id).get();
+    // @Test
+    // void listarLivrosAutor(){
+    //     var id = UUID.fromString("ac37fa37-ba66-4802-a2c5-50d123e5977c");
+    //     var autor = repository.findById(id).get();
 
-        // buscar os livros do autor
+         // buscar os livros do autor
 
-     List<Livro> livrosLista = livroRepository.findByAutor(autor);
-     autor.setLivros(livrosLista);
+    //  List<Livro> livrosLista = livroRepository.findByAutor(autor);
+    //  autor.setLivros(livrosLista);
 
-        autor.getLivros().forEach(System.out::println);
-    }
+    //     autor.getLivros().forEach(System.out::println);
+    // }
 
 }

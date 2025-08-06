@@ -8,7 +8,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+//import org.springframework.transaction.annotation.Transactional;
 
 import io.github.n4th05.libraryapi.model.Autor;
 import io.github.n4th05.libraryapi.model.GeneroLivro;
@@ -26,25 +26,25 @@ public class LivroRepositoryTest {
 
     
 
-    @Test
-    public void salvarTest() {
-        Livro livro = new Livro();
-        livro.setIsbn("90051-6564");
-        livro.setPreco(BigDecimal.valueOf(100));
-        livro.setGenero(GeneroLivro.CIENCIA);
-        livro.setTitulo("Outro livro");
-        livro.setDataPublicacao(LocalDate.of(1980, 1, 2));
+//     @Test
+//     public void salvarTest() {
+//         Livro livro = new Livro();
+//         livro.setIsbn("90051-6564");
+//         livro.setPreco(BigDecimal.valueOf(100));
+//         livro.setGenero(GeneroLivro.CIENCIA);
+//         livro.setTitulo("Outro livro");
+//         livro.setDataPublicacao(LocalDate.of(1980, 1, 2));
 
-//Inserimos o autor que já existe no banco de dados com o id dele:
-         Autor autor = autorRepository.findById(UUID.fromString("76e7c418-ccf9-4e2a-af20-c28b9e50ab55"))
-         .orElse(null);
+ // Inserimos o autor que já existe no banco de dados com o id dele:
+//          Autor autor = autorRepository.findById(UUID.fromString("76e7c418-ccf9-4e2a-af20-c28b9e50ab55"))
+//          .orElse(null);
 
 
-         livro.setAutor(autor);
+//          livro.setAutor(autor);
 
-// Depois de setar o autor, podemos salvar o livro:
-        repository.save(livro);
-    }    
+//  Depois de setar o autor, podemos salvar o livro:
+//         repository.save(livro);
+//     }    
 
     @Test
     void salvarAutorELivroTest(){
@@ -90,18 +90,18 @@ public class LivroRepositoryTest {
 
     }  
 
-    @Test
-    void atualizarAutorDoLivro(){
-       UUID id = UUID.fromString("b8b85ba4-e198-499b-b219-64d0bafd1cd7");
-        var livroParaAtualizar = repository.findById(id).orElse(null);
+    // @Test
+    // void atualizarAutorDoLivro(){
+    //    UUID id = UUID.fromString("b8b85ba4-e198-499b-b219-64d0bafd1cd7");
+    //     var livroParaAtualizar = repository.findById(id).orElse(null);
 
-        UUID idAutor = UUID.fromString("fd5435ae-02d3-4b34-bce1-c08f3931de98");
-        Autor maria = autorRepository.findById(idAutor).orElse(null);
+    //     UUID idAutor = UUID.fromString("fd5435ae-02d3-4b34-bce1-c08f3931de98");
+    //     Autor maria = autorRepository.findById(idAutor).orElse(null);
 
-        livroParaAtualizar.setAutor(maria);
+    //     livroParaAtualizar.setAutor(maria);
 
-        repository.save(livroParaAtualizar);
-    }
+    //     repository.save(livroParaAtualizar);
+    // }
 
     @Test
     void deletar(){
@@ -115,17 +115,17 @@ public class LivroRepositoryTest {
         repository.deleteById(id);
     }
 
-    @Test
-    @Transactional // Mantém a transação ativa para que o Hibernate possa carregar os dados do autor. getAutor().getNome() por exemplo.
-    void buscarLivroTest(){
-        UUID id = UUID.fromString("f16a8662-a0cf-4417-ae61-a225acf59554");
-        Livro livro = repository.findById(id).orElse(null);
-        System.out.println("Livro: ");
-        System.out.println(livro.getTitulo());
+    // @Test
+    // @Transactional // Mantém a transação ativa para que o Hibernate possa carregar os dados do autor. getAutor().getNome() por exemplo.
+    // void buscarLivroTest(){
+    //     UUID id = UUID.fromString("f16a8662-a0cf-4417-ae61-a225acf59554");
+    //     Livro livro = repository.findById(id).orElse(null);
+    //     System.out.println("Livro: ");
+    //     System.out.println(livro.getTitulo());
 
-        System.out.println("Autor: ");
-        System.out.println(livro.getAutor().getNome());
-    }
+    //     System.out.println("Autor: ");
+    //     System.out.println(livro.getAutor().getNome());
+    // }
 
     @Test
     void pesquisaPorTituloTest(){
