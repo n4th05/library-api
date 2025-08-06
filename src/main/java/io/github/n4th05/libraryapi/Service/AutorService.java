@@ -8,17 +8,21 @@ import org.springframework.stereotype.Service;
 
 import io.github.n4th05.libraryapi.model.Autor;
 import io.github.n4th05.libraryapi.repository.AutorRepository;
+import io.github.n4th05.libraryapi.validator.AutorValidator;
 
 @Service
 public class AutorService {
 
     private final AutorRepository repository;
+    private final AutorValidator validator;
     
-    public AutorService(AutorRepository repository){
+    public AutorService(AutorRepository repository, AutorValidator validator){
         this.repository = repository;
+        this.validator = validator;
     }
 
     public Autor salvar(Autor autor){
+        validator.validar(autor);
         return repository.save(autor);
     }
 
@@ -26,6 +30,7 @@ public class AutorService {
         if(autor.getId() == null){
             throw new IllegalArgumentException("Para atualizar é necessario que o autor já esteja salvo na base.");
         }
+        validator.validar(autor);
         repository.save(autor);
     }
 

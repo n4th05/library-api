@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import io.github.n4th05.libraryapi.controller.dto.AutorDTO;
+import io.github.n4th05.libraryapi.controller.dto.ErroResposta;
+import io.github.n4th05.libraryapi.exceptions.RegistroDuplicadoException;
 import io.github.n4th05.libraryapi.model.Autor;
 import io.github.n4th05.libraryapi.service.AutorService;
 
@@ -34,7 +36,8 @@ public class AutorController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> salvar(@RequestBody AutorDTO autor){
+    public ResponseEntity<Object> salvar(@RequestBody AutorDTO autor){
+        try{
         Autor autorEntidade = autor.mapearParaAutor();
         service.salvar(autorEntidade);
 
@@ -47,7 +50,11 @@ public class AutorController {
         .toUri();
 
         return ResponseEntity.created(location).build();
+    } catch(RegistroDuplicadoException e) {
+        var erroDTO = ErroResposta.conflito(e.getMessage());
+        return ResponseEntity.status(erroDTO.status()).body(erroDTO);
     }
+}
 
     @GetMapping("{id}")
     public ResponseEntity<AutorDTO> obterDetalhes(@PathVariable("id") String id){
