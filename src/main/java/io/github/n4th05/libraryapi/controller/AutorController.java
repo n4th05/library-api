@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import io.github.n4th05.libraryapi.controller.dto.AutorDTO;
 import io.github.n4th05.libraryapi.controller.dto.ErroResposta;
+import io.github.n4th05.libraryapi.exceptions.OperacaoNaoPermitidaException;
 import io.github.n4th05.libraryapi.exceptions.RegistroDuplicadoException;
 import io.github.n4th05.libraryapi.model.Autor;
 import io.github.n4th05.libraryapi.service.AutorService;
@@ -75,7 +76,9 @@ public class AutorController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deletar(@PathVariable("id") String id){
+    public ResponseEntity<Object> deletar(@PathVariable("id") String id){
+        try{
+            
         var idAutor = UUID.fromString(id);
         Optional<Autor> autorOptional = service.obterPorId(idAutor);
 
@@ -86,7 +89,11 @@ public class AutorController {
         service.deletar(autorOptional.get());
 
         return ResponseEntity.noContent().build();
+    } catch (OperacaoNaoPermitidaException e){
+        var erroResposta = ErroResposta.respostaPadrao(e.getMessage());
+        return ResponseEntity.status(erroResposta.status()).body(erroResposta);
     }
+}
 
     @GetMapping
     public ResponseEntity<List<AutorDTO>> pesquisar(
@@ -107,9 +114,10 @@ public class AutorController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Void> atualizar(
+    public ResponseEntity<Object> atualizar(
         @PathVariable("id") String id, @RequestBody AutorDTO dto){
 
+        try{
         var idAutor = UUID.fromString(id);
         Optional<Autor> autorOptional = service.obterPorId(idAutor);
 
@@ -125,6 +133,10 @@ public class AutorController {
         service.atualizar(autor);
 
         return ResponseEntity.noContent().build();
+        } catch (RegistroDuplicadoException e) {
+            var erroDTO = ErroResposta.conflito(e.getMessage());
+            return ResponseEntity.status(erroDTO.status()).body(erroDTO);
+        }
     }
 
 }
