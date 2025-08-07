@@ -24,6 +24,7 @@ import io.github.n4th05.libraryapi.exceptions.OperacaoNaoPermitidaException;
 import io.github.n4th05.libraryapi.exceptions.RegistroDuplicadoException;
 import io.github.n4th05.libraryapi.model.Autor;
 import io.github.n4th05.libraryapi.service.AutorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -36,7 +37,7 @@ public class AutorController {
 
 
     @PostMapping
-    public ResponseEntity<Object> salvar(@RequestBody AutorDTO autor){
+    public ResponseEntity<Object> salvar(@RequestBody @Valid AutorDTO autor){
         try{
         Autor autorEntidade = autor.mapearParaAutor();
         service.salvar(autorEntidade);
