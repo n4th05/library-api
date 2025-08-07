@@ -24,17 +24,16 @@ import io.github.n4th05.libraryapi.exceptions.OperacaoNaoPermitidaException;
 import io.github.n4th05.libraryapi.exceptions.RegistroDuplicadoException;
 import io.github.n4th05.libraryapi.model.Autor;
 import io.github.n4th05.libraryapi.service.AutorService;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/autores")
+@RequiredArgsConstructor
 // https://localhost:8080/autores
 public class AutorController {
 
     public final AutorService service;
 
-    public AutorController(AutorService service){
-        this.service = service;
-    }
 
     @PostMapping
     public ResponseEntity<Object> salvar(@RequestBody AutorDTO autor){

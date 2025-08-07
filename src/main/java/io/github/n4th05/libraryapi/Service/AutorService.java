@@ -11,19 +11,16 @@ import io.github.n4th05.libraryapi.model.Autor;
 import io.github.n4th05.libraryapi.repository.AutorRepository;
 import io.github.n4th05.libraryapi.repository.LivroRepository;
 import io.github.n4th05.libraryapi.validator.AutorValidator;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class AutorService {
 
     private final AutorRepository repository;
     private final AutorValidator validator;
     private final LivroRepository livroRepository;
     
-    public AutorService(AutorRepository repository, AutorValidator validator, LivroRepository livroRepository){
-        this.repository = repository;
-        this.validator = validator;
-        this.livroRepository = livroRepository;
-    }
 
     public Autor salvar(Autor autor){
         validator.validar(autor);
