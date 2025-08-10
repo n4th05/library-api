@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import io.github.n4th05.libraryapi.exceptions.OperacaoNaoPermitidaException;
@@ -60,6 +62,23 @@ public class AutorService {
         }
 
         return repository.findAll();
+    }
+
+    public List<Autor> pesquisarByExample(String nome, String nacionalidade){
+        var autor = new Autor();
+        
+        autor.setNome(nome);
+        autor.setNacionalidade(nacionalidade);
+
+        ExampleMatcher matcher = ExampleMatcher
+        .matching() // Configura o matcher para ignorar campos específicos.
+        .withIgnorePaths("id", "dataNascimento", "dataCadastro") // Ignora esses campos na pesquisa.
+        .withIgnoreNullValues() // Ignora valores nulos nos campos.
+        .withIgnoreCase() // Ignora diferenças entre maiúsculas e minúsculas.
+        .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING); // Faz uma pesquisa que contém o valor do campo.
+        Example<Autor> autorExample = Example.of(autor, matcher);
+
+        return repository.findAll(autorExample);
     }
 
     public boolean possuiLivro(Autor autor){
