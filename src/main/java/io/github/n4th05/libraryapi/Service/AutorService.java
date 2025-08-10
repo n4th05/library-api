@@ -48,6 +48,7 @@ public class AutorService {
         repository.delete(autor);
     }
 
+    // Método para pesquisa de autores, SIMPLES.
     public List<Autor> pesquisa(String nome, String nacionalidade){
         if(nome != null && nacionalidade != null){
             return repository.findByNomeAndNacionalidade(nome, nacionalidade);
@@ -64,6 +65,7 @@ public class AutorService {
         return repository.findAll();
     }
 
+    // Método para pesquisa usando Query By Example. Recomendado.
     public List<Autor> pesquisarByExample(String nome, String nacionalidade){
         var autor = new Autor();
         
