@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import io.github.n4th05.libraryapi.controller.dto.AutorDTO;
 import io.github.n4th05.libraryapi.controller.dto.ErroResposta;
@@ -32,7 +31,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/autores")
 @RequiredArgsConstructor
 // https://localhost:8080/autores
-public class AutorController {
+public class AutorController implements GenericController { // Implementa a interface GenericController
 
     private final AutorService service;
     private final AutorMapper mapper;
@@ -42,17 +41,9 @@ public class AutorController {
         try{
         Autor autor = mapper.toEntity(dto);
         service.salvar(autor);
-
-
-        // https://localhost:8080/autores/0727433a-8bd5-4294-8a26-0898b7932d63
-        URI location = ServletUriComponentsBuilder
-        .fromCurrentRequest()
-        .path("/{id}")
-        .buildAndExpand(autor.getId())
-        .toUri();
-
+        URI location = gerarHeaderLocation(autor.getId());
         return ResponseEntity.created(location).build();
-    } catch(RegistroDuplicadoException e) {
+    } catch (RegistroDuplicadoException e) {
         var erroDTO = ErroResposta.conflito(e.getMessage());
         return ResponseEntity.status(erroDTO.status()).body(erroDTO);
     }

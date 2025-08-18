@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("livros")
 @RequiredArgsConstructor
-public class LivroController {
+public class LivroController implements GenericController{
     
     private final LivroService service;
     private final LivroMapper mapper;
@@ -28,10 +28,8 @@ public class LivroController {
         try {
             Livro livro = mapper.toEntity(dto); // mapear dto para entidade
             service.salvar(livro); // enviar a entidade para o service validar e salvar na base
-            // criar url para acesso dos dados do livro
-            // retornar codigo created com header location
-            
-            return ResponseEntity.ok(livro);
+            var url = gerarHeaderLocation(livro.getId()); // criar url para acesso dos dados do livro
+            return ResponseEntity.created(url).build(); // retornar codigo created com header location
         } catch (RegistroDuplicadoException e) {
             var erroDTO = ErroResposta.conflito(e.getMessage());
             return ResponseEntity.status(erroDTO.status()).body(erroDTO);
