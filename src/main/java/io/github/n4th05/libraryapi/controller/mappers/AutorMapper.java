@@ -9,6 +9,7 @@ import io.github.n4th05.libraryapi.model.Autor;
 @Mapper(componentModel = "spring") // Trasforma ele em um componente do Spring, para que possa ser injetado em outros lugares.
 public interface AutorMapper {
 
+    // target = entidade / source = DTO
     @Mapping(source = "nome", target = "nome") // Mapeia o campo nome do DTO para o campo nome da entidade Autor.
     @Mapping(source = "dataNascimento", target = "dataNascimento") // Mapeia o campo dataNascimento do DTO para o campo dataNascimento da entidade Autor.
     @Mapping(source = "nacionalidade", target = "nacionalidade") // Mapeia o campo nacionalidade do DTO para o campo nacionalidade da entidade Autor.
