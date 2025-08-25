@@ -20,4 +20,11 @@ public class LivroSpecs {
     public static Specification<Livro> generoEqual(GeneroLivro genero) {
         return (root, query, cb) -> cb.equal(root.get("genero"), genero);
     }
+
+    public static Specification<Livro> anoPublicacaoEqual(Integer anoPublicacao) {
+        // and to_char(data_publicacao, 'yyyy') = :anoPublicacao
+        return (root, query, cb) -> 
+                cb.equal( cb.function("to_char", String.class,
+                        root.get("dataPublicacao"), cb.literal("YYYY")), anoPublicacao.toString());
+    }
 }

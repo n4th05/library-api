@@ -1,6 +1,5 @@
 package io.github.n4th05.libraryapi.service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -34,7 +33,7 @@ public class LivroService {
     }
 
     public List<Livro> pesquisa(
-            String isbn, String titulo, String nomeAutor, GeneroLivro genero, LocalDate dataPublicacao){
+            String isbn, String titulo, String nomeAutor, GeneroLivro genero, Integer anoPublicacao){
 
         // select * from livro where isbn = :isbn and nomeAutor = 
 
@@ -46,7 +45,7 @@ public class LivroService {
 
 
         //select * from livro where 0 = 0
-        Specification<Livro> specs = Specification.where((root, query, cb) -> cb.conjunction() );
+        Specification<Livro> specs = Specification.where((root, query, cb) -> cb.conjunction() ); // conjunction significa "true"
 
         if(isbn != null){
             // query = query and isbn = :isbn
@@ -59,6 +58,10 @@ public class LivroService {
 
         if(genero != null){
             specs = specs.and(generoEqual(genero));
+        }
+
+        if(anoPublicacao != null){
+            specs = specs.and(anoPublicacaoEqual(anoPublicacao));
         }
         
         return repository.findAll(specs);
