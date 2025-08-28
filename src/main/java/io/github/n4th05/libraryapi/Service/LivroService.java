@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import io.github.n4th05.libraryapi.model.GeneroLivro;
 import io.github.n4th05.libraryapi.model.Livro;
 import io.github.n4th05.libraryapi.repository.LivroRepository;
+import io.github.n4th05.libraryapi.validator.LivroValidator;
 import lombok.RequiredArgsConstructor;
 
 import static io.github.n4th05.libraryapi.repository.Specs.LivroSpecs.*;
@@ -19,8 +20,10 @@ import static io.github.n4th05.libraryapi.repository.Specs.LivroSpecs.*;
 public class LivroService {
 
     private final LivroRepository repository;
+    private final LivroValidator validator;
 
     public Livro salvar(Livro livro){
+        validator.validar(livro);
         return repository.save(livro);
     }
 
@@ -75,7 +78,8 @@ public class LivroService {
         if(livro.getId() == null) {
             throw new IllegalArgumentException("Para atualizar é necessario que o livro já esteja salvo na base.");
         }
-        
+
+        validator.validar(livro);
         repository.save(livro);
     }
 }

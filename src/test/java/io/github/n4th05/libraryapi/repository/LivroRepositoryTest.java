@@ -3,6 +3,7 @@ package io.github.n4th05.libraryapi.repository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -135,8 +136,8 @@ public class LivroRepositoryTest {
 
     @Test
     void pesquisaPorIsbnTest(){
-        List<Livro> lista = repository.findByIsbn("9999-84874");
-        lista.forEach(System.out::println);
+        Optional<Livro> livro = repository.findByIsbn("9999-84874");
+        livro.ifPresent(System.out::println);
     }
 
     @Test
