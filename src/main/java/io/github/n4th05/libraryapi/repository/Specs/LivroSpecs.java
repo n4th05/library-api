@@ -4,6 +4,8 @@ import org.springframework.data.jpa.domain.Specification;
 
 import io.github.n4th05.libraryapi.model.GeneroLivro;
 import io.github.n4th05.libraryapi.model.Livro;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 
 public class LivroSpecs {
     
@@ -26,5 +28,16 @@ public class LivroSpecs {
         return (root, query, cb) -> 
                 cb.equal( cb.function("to_char", String.class,
                         root.get("dataPublicacao"), cb.literal("YYYY")), anoPublicacao.toString());
+    }
+
+    public static Specification<Livro> nomeAutorLike(String nome) {
+        return (root, query, cb) -> { // root representa a entidade Livro
+        // forma recomendada com join:
+            Join<Object,Object> joinAutor = root.join("autor", JoinType.LEFT); // fazer o join com a entidade Autor
+            return cb.like (cb.upper(joinAutor.get("nome")), "%" + nome.toUpperCase() + "%");
+
+        // forma simples de fazer sem o join:
+            // return cb.like( cb.upper(root.get("autor").get("nome")), "%" + nome.toUpperCase() + "%" );
+        };
     }
 }

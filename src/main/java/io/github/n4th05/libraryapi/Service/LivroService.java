@@ -63,6 +63,10 @@ public class LivroService {
         if(anoPublicacao != null){
             specs = specs.and(anoPublicacaoEqual(anoPublicacao));
         }
+
+        if(nomeAutor != null) {
+            specs = specs.and(nomeAutorLike(nomeAutor));
+        }
         
         return repository.findAll(specs);
     }
