@@ -1,4 +1,4 @@
-package io.github.n4th05.libraryapi;
+package io.github.n4th05.libraryapi.config;
 
 import javax.sql.DataSource;
 
