@@ -6,6 +6,12 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -25,5 +31,28 @@ public class SecurityConfiguration {
                     authorize.anyRequest().authenticated(); // Exige autenticação para todas as requisições. Siginifica que qualquer requisição deve ser autenticada. Tenho que estar autenticado para fazer qualquer requisição.
                 })
                 .build(); // Constrói o SecurityFilterChain.
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){ // Codificador de senhas BCrypt com força 10.
+        return new BCryptPasswordEncoder(10); // BCrypt é um algoritmo de hash que é usado para proteger senhas, ele criptografa a senha de forma que não possa ser revertida.
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService(PasswordEncoder encoder){
+
+        UserDetails user1 = User.builder()
+        .username("usuario")
+        .password(encoder.encode("123")) // A senha é codificada usando o PasswordEncoder definido acima.
+        .roles("USER")
+        .build();
+
+        UserDetails user2 = User.builder()
+        .username("admin")
+        .password(encoder.encode("321"))
+        .roles("ADMIN")
+        .build();
+
+        return new InMemoryUserDetailsManager(user1, user2); // Cria um UserDetailsService em memória com dois usuários.
     }
 }
