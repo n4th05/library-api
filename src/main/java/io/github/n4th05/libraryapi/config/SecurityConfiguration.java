@@ -2,6 +2,7 @@ package io.github.n4th05.libraryapi.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -34,6 +35,7 @@ public class SecurityConfiguration {
             //        authorize.requestMatchers(HttpMethod.GET, "/autores/**").hasAnyRole("USER", "ADMIN"); // Exige que o usuário que tenha o papel USER ou ADMIN para acessar endpoints que começam com /autores/.
                     
                     authorize.requestMatchers("/login/**").permitAll(); // Permite acesso à página de login sem autenticação.
+                    authorize.requestMatchers(HttpMethod.POST, "/usuarios/**").permitAll();
                     authorize.requestMatchers("/autores/**").hasRole("ADMIN");
                     authorize.requestMatchers("/livros/**").hasAnyRole("USER", "ADMIN");
 
