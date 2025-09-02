@@ -7,13 +7,13 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import io.github.n4th05.libraryapi.security.CustomUserDetailsService;
+import io.github.n4th05.libraryapi.service.UsuarioService;
 
 @Configuration
 @EnableWebSecurity
@@ -50,20 +50,23 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder encoder){
+    public UserDetailsService userDetailsService(UsuarioService usuarioService){
+        // Comentamos porque ele usa um UserDetailsService em memória, mas queremos usar um UserDetailsService que busca os usuários no banco de dados.
+        
+    //     UserDetails user1 = User.builder()
+    //     .username("usuario")
+    //     .password(encoder.encode("123")) // A senha é codificada usando o PasswordEncoder definido acima.
+    //     .roles("USER")
+    //     .build();
 
-        UserDetails user1 = User.builder()
-        .username("usuario")
-        .password(encoder.encode("123")) // A senha é codificada usando o PasswordEncoder definido acima.
-        .roles("USER")
-        .build();
+    //     UserDetails user2 = User.builder()
+    //     .username("admin")
+    //     .password(encoder.encode("321"))
+    //     .roles("ADMIN")
+    //     .build();
 
-        UserDetails user2 = User.builder()
-        .username("admin")
-        .password(encoder.encode("321"))
-        .roles("ADMIN")
-        .build();
+    //     return new InMemoryUserDetailsManager(user1, user2); // Cria um UserDetailsService em memória com dois usuários.
 
-        return new InMemoryUserDetailsManager(user1, user2); // Cria um UserDetailsService em memória com dois usuários.
-    }
+        return new CustomUserDetailsService(usuarioService); // Usa o CustomUserDetailsService para carregar os detalhes do usuário a partir do banco de dados.
+     }
 }
