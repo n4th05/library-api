@@ -16,8 +16,11 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable) // Desabilita o CSRF. Porque não estamos usando essa API para aplicações web, então não precisamos dessa proteção.
-                .formLogin(Customizer.withDefaults()) // Habilita o formulário de login padrão.
                 .httpBasic(Customizer.withDefaults()) // Habilita a autenticação HTTP Basic.
+        //      .formLogin(Customizer.withDefaults()) // Habilita o formulário de login padrão.
+                .formLogin(configurer -> {
+                    configurer.loginPage("/login").permitAll(); // Define a página de login personalizada.
+                })
                 .authorizeHttpRequests(authorize -> {
                     authorize.anyRequest().authenticated(); // Exige autenticação para todas as requisições. Siginifica que qualquer requisição deve ser autenticada. Tenho que estar autenticado para fazer qualquer requisição.
                 })
