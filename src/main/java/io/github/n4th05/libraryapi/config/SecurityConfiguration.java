@@ -25,9 +25,18 @@ public class SecurityConfiguration {
                 .httpBasic(Customizer.withDefaults()) // Habilita a autenticação HTTP Basic.
         //      .formLogin(Customizer.withDefaults()) // Habilita o formulário de login padrão.
                 .formLogin(configurer -> {
-                    configurer.loginPage("/login").permitAll(); // Define a página de login personalizada.
+                    configurer.loginPage("/login"); // Define a página de login personalizada.
                 })
                 .authorizeHttpRequests(authorize -> {
+            //        authorize.requestMatchers(HttpMethod.POST, "/autores/**").hasRole("ADMIN"); // Exige que o usuário que tenha o papel de ADMIN cadastre um novo autor.
+            //        authorize.requestMatchers(HttpMethod.DELETE, "/autores/**").hasRole("ADMIN"); // Exige que o usuário que tenha o papel de ADMIN para deletar um autor.
+            //        authorize.requestMatchers(HttpMethod.PUT, "/autores/**").hasRole("ADMIN"); // Exige que o usuário que tenha o papel de ADMIN para atualizar um autor.
+            //        authorize.requestMatchers(HttpMethod.GET, "/autores/**").hasAnyRole("USER", "ADMIN"); // Exige que o usuário que tenha o papel USER ou ADMIN para acessar endpoints que começam com /autores/.
+                    
+                    authorize.requestMatchers("/login/**").permitAll(); // Permite acesso à página de login sem autenticação.
+                    authorize.requestMatchers("/autores/**").hasRole("ADMIN");
+                    authorize.requestMatchers("/livros/**").hasAnyRole("USER", "ADMIN");
+
                     authorize.anyRequest().authenticated(); // Exige autenticação para todas as requisições. Siginifica que qualquer requisição deve ser autenticada. Tenho que estar autenticado para fazer qualquer requisição.
                 })
                 .build(); // Constrói o SecurityFilterChain.
