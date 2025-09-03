@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -17,6 +18,7 @@ import io.github.n4th05.libraryapi.service.UsuarioService;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true) // Habilita a segurança baseada em métodos, permitindo o uso de anotações como @Secured e @RolesAllowed.
 public class SecurityConfiguration {
     
     @Bean
@@ -36,8 +38,6 @@ public class SecurityConfiguration {
                     
                     authorize.requestMatchers("/login/**").permitAll(); // Permite acesso à página de login sem autenticação.
                     authorize.requestMatchers(HttpMethod.POST, "/usuarios/**").permitAll();
-                    authorize.requestMatchers("/autores/**").hasRole("ADMIN");
-                    authorize.requestMatchers("/livros/**").hasAnyRole("USER", "ADMIN");
 
                     authorize.anyRequest().authenticated(); // Exige autenticação para todas as requisições. Siginifica que qualquer requisição deve ser autenticada. Tenho que estar autenticado para fazer qualquer requisição.
                 })
@@ -52,7 +52,7 @@ public class SecurityConfiguration {
     @Bean
     public UserDetailsService userDetailsService(UsuarioService usuarioService){
         // Comentamos porque ele usa um UserDetailsService em memória, mas queremos usar um UserDetailsService que busca os usuários no banco de dados.
-        
+
     //     UserDetails user1 = User.builder()
     //     .username("usuario")
     //     .password(encoder.encode("123")) // A senha é codificada usando o PasswordEncoder definido acima.
