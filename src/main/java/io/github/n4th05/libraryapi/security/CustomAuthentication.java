@@ -22,7 +22,7 @@ public class CustomAuthentication implements Authentication{
         return this.usuario
                 .getRoles()
                 .stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role)) // Prefixo "ROLE_" é uma convenção do Spring Security para identificar papéis.
+                .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }
 

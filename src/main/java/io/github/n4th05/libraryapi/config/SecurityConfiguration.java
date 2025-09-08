@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -69,5 +70,10 @@ public class SecurityConfiguration {
     //     return new InMemoryUserDetailsManager(user1, user2); // Cria um UserDetailsService em memória com dois usuários.
 
         return new CustomUserDetailsService(usuarioService); // Usa o CustomUserDetailsService para carregar os detalhes do usuário a partir do banco de dados.
+     }
+
+     @Bean
+     public GrantedAuthorityDefaults grantedAuthorityDefaults(){ // Remove o prefixo "ROLE_" padrão do Spring Security.
+        return new GrantedAuthorityDefaults(""); // Define o prefixo como uma string vazia.
      }
 }
