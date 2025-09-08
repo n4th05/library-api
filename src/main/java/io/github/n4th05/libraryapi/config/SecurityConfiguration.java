@@ -50,7 +50,7 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder(10); // BCrypt é um algoritmo de hash que é usado para proteger senhas, ele criptografa a senha de forma que não possa ser revertida.
     }
 
-    @Bean
+//    @Bean // Comentamos para ele usar o CustomAuthenticationProvider que criamos.
     public UserDetailsService userDetailsService(UsuarioService usuarioService){
         // Comentamos porque ele usa um UserDetailsService em memória, mas queremos usar um UserDetailsService que busca os usuários no banco de dados.
 
