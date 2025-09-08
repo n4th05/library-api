@@ -14,3 +14,10 @@ spring:
         properties:
             hibernate:
                 format_sql: true  # Altera o formato do SQL para ser mais legível no console.
+    security:
+        oauth2:
+            client:
+                registration:
+                    google:
+                        client-id: # ${GOOGLE_CLIENT_ID}
+                        client-secret: # ${GOOGLE_CLIENT_SECRET}

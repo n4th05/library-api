@@ -26,10 +26,10 @@ public class SecurityConfiguration {
         return http
                 .csrf(AbstractHttpConfigurer::disable) // Desabilita o CSRF. Porque não estamos usando essa API para aplicações web, então não precisamos dessa proteção.
                 .httpBasic(Customizer.withDefaults()) // Habilita a autenticação HTTP Basic.
-        //      .formLogin(Customizer.withDefaults()) // Habilita o formulário de login padrão.
-                .formLogin(configurer -> {
-                    configurer.loginPage("/login"); // Define a página de login personalizada.
-                })
+                // .formLogin(configurer -> {
+                //     configurer.loginPage("/login"); // Define a página de login personalizada.
+                // })
+                .formLogin(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> {
             //        authorize.requestMatchers(HttpMethod.POST, "/autores/**").hasRole("ADMIN"); // Exige que o usuário que tenha o papel de ADMIN cadastre um novo autor.
             //        authorize.requestMatchers(HttpMethod.DELETE, "/autores/**").hasRole("ADMIN"); // Exige que o usuário que tenha o papel de ADMIN para deletar um autor.
@@ -41,6 +41,7 @@ public class SecurityConfiguration {
 
                     authorize.anyRequest().authenticated(); // Exige autenticação para todas as requisições. Siginifica que qualquer requisição deve ser autenticada. Tenho que estar autenticado para fazer qualquer requisição.
                 })
+                .oauth2Login(Customizer.withDefaults()) // Habilita o login via OAuth2 com as configurações padrão.
                 .build(); // Constrói o SecurityFilterChain.
     }
 
