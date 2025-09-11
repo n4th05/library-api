@@ -1,9 +1,11 @@
 package io.github.n4th05.libraryapi.controller;
 
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import io.github.n4th05.libraryapi.security.CustomAuthentication;
 
 @Controller
 public class LoginViewController {
@@ -16,6 +18,9 @@ public class LoginViewController {
     @GetMapping("/")
     @ResponseBody // Pra esse caso retornar uma String como resposta HTTP.
     public String paginaHome(Authentication authentication){
-        return "Olá " + authentication.getUsername();
+        if(authentication instanceof CustomAuthentication customAuth){
+            System.out.println(customAuth.getUsuario());
+        }
+        return "Olá " + authentication.getName();
     }
 }
