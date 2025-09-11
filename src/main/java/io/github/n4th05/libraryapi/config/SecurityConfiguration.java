@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import io.github.n4th05.libraryapi.security.CustomUserDetailsService;
+import io.github.n4th05.libraryapi.security.LoginSocialSucessHandler;
 import io.github.n4th05.libraryapi.service.UsuarioService;
 
 @Configuration
@@ -23,7 +24,7 @@ import io.github.n4th05.libraryapi.service.UsuarioService;
 public class SecurityConfiguration {
     
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, LoginSocialSucessHandler sucessHandler) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable) // Desabilita o CSRF. Porque não estamos usando essa API para aplicações web, então não precisamos dessa proteção.
                 .httpBasic(Customizer.withDefaults()) // Habilita a autenticação HTTP Basic.
@@ -42,7 +43,9 @@ public class SecurityConfiguration {
 
                     authorize.anyRequest().authenticated(); // Exige autenticação para todas as requisições. Siginifica que qualquer requisição deve ser autenticada. Tenho que estar autenticado para fazer qualquer requisição.
                 })
-                .oauth2Login(Customizer.withDefaults()) // Habilita o login via OAuth2 com as configurações padrão.
+                .oauth2Login(oauth2 -> {
+                    oauth2.successHandler(sucessHandler); // Ele vai chamar o nosso handler quando o login for bem sucedido.
+                })
                 .build(); // Constrói o SecurityFilterChain.
     }
 

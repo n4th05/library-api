@@ -9,4 +9,6 @@ import io.github.n4th05.libraryapi.model.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
     
     Usuario findByLogin(String login);
+
+    Usuario findByEmail(String email);
 }
