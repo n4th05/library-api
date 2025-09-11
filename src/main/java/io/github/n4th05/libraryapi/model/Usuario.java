@@ -29,6 +29,9 @@ public class Usuario {
     @Column
     private String senha;
 
+    @Column
+    private String email;
+
     @Type(ListArrayType.class) // Define o tipo da coluna como ListArrayType, que é um tipo personalizado fornecido pela biblioteca Hypersistence Utils para mapear listas para colunas de array no banco de dados. Porque o hibernate não entende listas nativamente.
     @Column(name = "roles", columnDefinition = "varchar[]")
     private List<String> roles;
