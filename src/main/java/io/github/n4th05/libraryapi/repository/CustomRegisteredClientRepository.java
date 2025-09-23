@@ -5,8 +5,9 @@ import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
+import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.stereotype.Component;
-
 
 import io.github.n4th05.libraryapi.service.ClientService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 public class CustomRegisteredClientRepository implements RegisteredClientRepository{
 
     private final ClientService clientService;
+    private final TokenSettings tokenSettings;
+    private final ClientSettings clientSettings;
 
     @Override
     public void save(RegisteredClient registeredClient) {
@@ -43,8 +46,8 @@ public class CustomRegisteredClientRepository implements RegisteredClientReposit
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                // .tokenSettings() // Configurações do token como tempo de expiração e etc.
-                // .clientSettings() // Configurações do cliente como exigir consentimento e etc.
+                .tokenSettings(tokenSettings)
+                .clientSettings(clientSettings)
                 .build();
     }
 
