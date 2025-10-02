@@ -1,4 +1,4 @@
-package io.github.n4th05.libraryapi.repository;
+package io.github.n4th05.libraryapi.security;
 
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
