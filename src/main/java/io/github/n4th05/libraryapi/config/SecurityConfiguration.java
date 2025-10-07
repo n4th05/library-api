@@ -11,8 +11,10 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 
+import io.github.n4th05.libraryapi.security.JwtCustomAuthenticationFilter;
 import io.github.n4th05.libraryapi.security.LoginSocialSucessHandler;
 
 @Configuration
@@ -21,7 +23,7 @@ import io.github.n4th05.libraryapi.security.LoginSocialSucessHandler;
 public class SecurityConfiguration {
     
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, LoginSocialSucessHandler sucessHandler) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, LoginSocialSucessHandler sucessHandler, JwtCustomAuthenticationFilter jwtCustomAuthenticationFilter) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable) // Desabilita o CSRF. Porque não estamos usando essa API para aplicações web, então não precisamos dessa proteção.
                 .httpBasic(Customizer.withDefaults()) // Habilita a autenticação HTTP Basic.
@@ -45,6 +47,7 @@ public class SecurityConfiguration {
                         .successHandler(sucessHandler); // Ele vai chamar o nosso handler quando o login for bem sucedido.
                 })
                 .oauth2ResourceServer(oauth2RS -> oauth2RS.jwt(Customizer.withDefaults())) // Habilita a configuração padrão JWT. Habilita o Resource Server para validar tokens JWT.
+                .addFilterAfter(jwtCustomAuthenticationFilter, BearerTokenAuthenticationFilter.class) // Adiciona o filtro customizado após o filtro padrão de autenticação por token Bearer.
                 .build(); // Constrói o SecurityFilterChain.
     }
 
