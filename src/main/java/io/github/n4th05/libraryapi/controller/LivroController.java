@@ -21,12 +21,17 @@ import io.github.n4th05.libraryapi.controller.mappers.LivroMapper;
 import io.github.n4th05.libraryapi.model.GeneroLivro;
 import io.github.n4th05.libraryapi.model.Livro;
 import io.github.n4th05.libraryapi.service.LivroService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("livros")
 @RequiredArgsConstructor
+@Tag(name = "Livros")
 public class LivroController implements GenericController {
 
     private final LivroService service;
@@ -34,6 +39,13 @@ public class LivroController implements GenericController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('OPERADOR', 'GERENTE')") // Apenas usuários com o papel OPERADOR ou GERENTE podem acessar esse endpoint.
+    @Operation(summary = "Salvar", description = "Cadastrar novo Livro.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Livro cadastrado com sucesso."),
+        @ApiResponse(responseCode = "422", description = "Erro de validação."),
+        @ApiResponse(responseCode = "409", description = "Livro já cadastrado.")
+    }
+    )
     public ResponseEntity<Void> salvar(@RequestBody @Valid CadastroLivroDTO dto) {
         Livro livro = mapper.toEntity(dto); // mapear dto para entidade
         service.salvar(livro); // enviar a entidade para o service validar e salvar na base
@@ -43,6 +55,12 @@ public class LivroController implements GenericController {
 
     @GetMapping("{id}")
     @PreAuthorize("hasAnyRole('OPERADOR', 'GERENTE')")
+    @Operation(summary = "Obter Detalhes", description = "Retorna os dados do livro pelo ID.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Livro Encontrado."),
+        @ApiResponse(responseCode = "404", description = "Livro não encontrado.")
+    }
+    )
     public ResponseEntity<ResultadoPesquisaLivroDTO> obterDetalhes(
         @PathVariable("id") String id) {
         return service.obterPorId(UUID.fromString(id))
@@ -54,6 +72,12 @@ public class LivroController implements GenericController {
 
     @DeleteMapping("{id}")
     @PreAuthorize("hasAnyRole('OPERADOR', 'GERENTE')")
+    @Operation(summary = "Deletar", description = "Deleta um Livro existente.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "204", description = "Deletado com sucesso."),
+        @ApiResponse(responseCode = "404", description = "Livro não encontrado.")
+        }
+    )
     public ResponseEntity<Object> deletar(@PathVariable("id") String id) {
 
         return service.obterPorId(UUID.fromString(id))
@@ -65,6 +89,11 @@ public class LivroController implements GenericController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('OPERADOR', 'GERENTE')")
+    @Operation(summary = "Pesquisar", description = "Realiza pesquisa de Livros por parâmetros.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Sucesso.")
+        }
+    )
     public ResponseEntity<Page<ResultadoPesquisaLivroDTO>> pesquisa(
             @RequestParam(value = "isbn", required = false)
             String isbn,
@@ -91,6 +120,13 @@ public class LivroController implements GenericController {
 
     @PutMapping("{id}")
     @PreAuthorize("hasAnyRole('OPERADOR', 'GERENTE')")
+    @Operation(summary = "Atualizar", description = "Atualiza um Livro existente.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "204", description = "Atualizado com sucesso."),
+        @ApiResponse(responseCode = "404", description = "Livro não encontrado."),
+        @ApiResponse(responseCode = "409", description = "Livro já cadastrado.")
+        }
+    )
     public ResponseEntity<Object> atualizar(@PathVariable("id") String id, @RequestBody @Valid CadastroLivroDTO dto){
             return service.obterPorId(UUID.fromString(id))
                     .map(livro -> {
