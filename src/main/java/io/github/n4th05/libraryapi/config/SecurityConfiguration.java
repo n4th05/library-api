@@ -27,7 +27,6 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, LoginSocialSucessHandler sucessHandler, JwtCustomAuthenticationFilter jwtCustomAuthenticationFilter) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable) // Desabilita o CSRF. Porque não estamos usando essa API para aplicações web, então não precisamos dessa proteção.
-                .httpBasic(Customizer.withDefaults()) // Habilita a autenticação HTTP Basic.
                 .formLogin(configurer -> {
                     configurer.loginPage("/login"); // Define a página de login personalizada.
                 })
