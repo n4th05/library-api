@@ -22,5 +22,11 @@ spring:
                         client-id: ${GOOGLE_CLIENT_ID}
                         client-secret: ${GOOGLE_CLIENT_SECRET} // git reset --soft HEAD~1
 
+logging:
+  file:
+    name: app.log
+
+
+
 springdoc:
  override-with-generic-response: false # Desabilita a resposta genérica padrão do Springdoc OpenAPI, exemplo: bad request 400, internal server error 500, not found 404, etc.
