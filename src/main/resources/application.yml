@@ -22,11 +22,26 @@ spring:
                         client-id: ${GOOGLE_CLIENT_ID}
                         client-secret: ${GOOGLE_CLIENT_SECRET} // git reset --soft HEAD~1
 
+# Configurações Básicas sobre logs:
+
 logging:
   file:
     name: app.log
+  level:
+    root: warn
+    io:
+      github:
+        n4th05: trace
+    org:
+        springframework:
+          web: debug
+          security: trace
 
-
+# trace - ele pega tudo, é o nível mais detalhado de Logs. Ou seja ele pega o trace, debug, info, warn e error. (Não muito recomendado, porque gera muitos logs e sobrecarrega a aplicação sem necessidade).
+# debug - ele pega o debug, info, warn e error.
+# info - ele pega o info, warn e error.
+# warn - ele pega o warn e error. (Recomendado para ambientes de produção).
+# error - ele pega apenas o error.
 
 springdoc:
  override-with-generic-response: false # Desabilita a resposta genérica padrão do Springdoc OpenAPI, exemplo: bad request 400, internal server error 500, not found 404, etc.

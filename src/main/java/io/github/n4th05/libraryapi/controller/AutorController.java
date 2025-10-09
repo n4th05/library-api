@@ -28,12 +28,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/autores")
 @RequiredArgsConstructor
 // https://localhost:8080/autores
 @Tag(name = "Autores")
+@Slf4j // Adiciona suporte a logging via Lombok
 public class AutorController implements GenericController { // Implementa a interface GenericController
 
     private final AutorService service;
@@ -107,6 +109,12 @@ public class AutorController implements GenericController { // Implementa a inte
     public ResponseEntity<List<AutorDTO>> pesquisar(
             @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "nacionalidade", required = false) String nacionalidade) {
+
+            log.trace("Pesquisa autores"); // Exemplo de uso dos diferentes níveis de log
+            log.debug("Pesquisa autores"); // Assim voce vai testando os níveis de log
+            log.info("Pesquisa autores");
+            log.warn("Pesquisa autores");
+            log.error("Pesquisa autores");
 
         List<Autor> resultado = service.pesquisarByExample(nome, nacionalidade);
         List<AutorDTO> lista = resultado
