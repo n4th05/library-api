@@ -31,7 +31,7 @@ logging:
     root: warn
     io:
       github:
-        n4th05: trace
+        n4th05: info
     org:
         springframework:
           web: debug

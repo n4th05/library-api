@@ -51,6 +51,8 @@ public class AutorController implements GenericController { // Implementa a inte
     }
     )
     public ResponseEntity<Void> salvar(@RequestBody @Valid AutorDTO dto) {
+        log.info("Cadastrando novo autor: {}", dto.nome());
+
         Autor autor = mapper.toEntity(dto);
         service.salvar(autor);
         URI location = gerarHeaderLocation(autor.getId());
@@ -86,6 +88,8 @@ public class AutorController implements GenericController { // Implementa a inte
         }
     )
     public ResponseEntity<Void> deletar(@PathVariable("id") String id) {
+        log.info("Deletando autor de ID: {}", id);
+
         var idAutor = UUID.fromString(id);
         Optional<Autor> autorOptional = service.obterPorId(idAutor);
 
@@ -96,7 +100,6 @@ public class AutorController implements GenericController { // Implementa a inte
         service.deletar(autorOptional.get());
 
         return ResponseEntity.noContent().build();
-
     }
 
     @GetMapping
@@ -109,12 +112,6 @@ public class AutorController implements GenericController { // Implementa a inte
     public ResponseEntity<List<AutorDTO>> pesquisar(
             @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "nacionalidade", required = false) String nacionalidade) {
-
-            log.trace("Pesquisa autores"); // Exemplo de uso dos diferentes níveis de log
-            log.debug("Pesquisa autores"); // Assim voce vai testando os níveis de log
-            log.info("Pesquisa autores");
-            log.warn("Pesquisa autores");
-            log.error("Pesquisa autores");
 
         List<Autor> resultado = service.pesquisarByExample(nome, nacionalidade);
         List<AutorDTO> lista = resultado

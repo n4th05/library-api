@@ -16,13 +16,16 @@ import io.github.n4th05.libraryapi.controller.dto.ErroResposta;
 import io.github.n4th05.libraryapi.exceptions.CampoInvalidoException;
 import io.github.n4th05.libraryapi.exceptions.OperacaoNaoPermitidaException;
 import io.github.n4th05.libraryapi.exceptions.RegistroDuplicadoException;
+import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice // Ele captura Exception.
+@Slf4j
 public class GlobalExceptionHandler {
     
     @ExceptionHandler(MethodArgumentNotValidException.class) // Ele captura o erro e retorna uma resposta customizada.
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY) // Serve para mapear o retorno desse método. Ou seja, ele vai ser sempre UNPROCESSABLE_ENTITY.
     public ErroResposta handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
+        log.error("Erro de validação", e.getMessage());
         List<FieldError> fieldErrors = e.getFieldErrors();
         List<ErroCampo> listaErros = fieldErrors
                 .stream()
@@ -65,6 +68,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErroResposta handleErrosNaoTratados(RuntimeException e){
+        log.error("Erro inesperado!", e);
         return new ErroResposta(
             HttpStatus.INTERNAL_SERVER_ERROR.value(), 
             "Ocorreu um Erro inesperado. Entre em contato com a administracao. ",
