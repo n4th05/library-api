@@ -1,9 +1,8 @@
 spring:
     application:
         name: libraryapi
-    profiles:
-      active: production # Define o perfil apontado para produção. Pode ser "homologacao", "production"...
-    # SPRING_PROFILES_ACTIVE=production (Variável de ambiente para definir o perfil ativo).
+    # profiles:
+    #   active: production # Define o perfil apontado para produção. Pode ser "homologacao", "production"...
     output:
       ansi:
         enabled: ALWAYS
@@ -25,8 +24,8 @@ spring:
             client:
                 registration:
                     google:
-                        client-id: ${GOOGLE_CLIENT_ID}
-                        client-secret: ${GOOGLE_CLIENT_SECRET} // git reset --soft HEAD~1
+                        client-id: ${GOOGLE_CLIENT_ID} 
+                        client-secret: ${GOOGLE_CLIENT_SECRET}
 
 
 # Configurações Básicas sobre logs:
