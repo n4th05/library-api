@@ -1,0 +1,5 @@
+spring:
+    application:
+        name: libraryapi-production
+    jpa:
+        show-sql: false
