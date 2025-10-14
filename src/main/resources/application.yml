@@ -48,5 +48,15 @@ logging:
 # warn - ele pega o warn e error. (Recomendado para ambientes de produção).
 # error - ele pega apenas o error.
 
+
+# Configurações do Spring Boot Actuator:
+management:
+  server:
+    port: 9090 # Define uma porta diferente para o Actuator, assim não conflita com a porta da aplicação principal.
+  endpoints:
+    web:
+      exposure:
+        include: '*' # Expõe todos os endpoints do Actuator.
+
 springdoc:
  override-with-generic-response: false # Desabilita a resposta genérica padrão do Springdoc OpenAPI, exemplo: bad request 400, internal server error 500, not found 404, etc.
