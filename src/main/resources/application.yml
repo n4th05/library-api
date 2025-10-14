@@ -2,7 +2,8 @@ spring:
     application:
         name: libraryapi
     profiles:
-      active: homologacao # Define o perfil apontado para produção. Pode ser "homologacao", "production"...
+      active: production # Define o perfil apontado para produção. Pode ser "homologacao", "production"...
+    # SPRING_PROFILES_ACTIVE=production (Variável de ambiente para definir o perfil ativo).
     output:
       ansi:
         enabled: ALWAYS
@@ -63,3 +64,25 @@ management:
 
 springdoc:
  override-with-generic-response: false # Desabilita a resposta genérica padrão do Springdoc OpenAPI, exemplo: bad request 400, internal server error 500, not found 404, etc.
+
+
+# Production
+---
+spring:
+  config:
+    activate:
+      on-profile: production
+  jpa:
+    show-sql: false
+
+
+# Homologação
+---
+spring:
+  config:
+    activate:
+      on-profile: homologacao
+  jpa:
+    show-sql: false
+  datasource: 
+      url: jdbc:postgresql://localhost:5435/library
