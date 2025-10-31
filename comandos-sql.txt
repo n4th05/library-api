@@ -44,3 +44,19 @@ create table client(
 	redirect_uri varchar(200) not null,
 	scope varchar(50)
 );
+
+-- Para adicionar uma extensão no Postgres(ou em qualquer db), basta usar esse comando e substituir nas "aspas" o nome da biblioteca que você quer usar.
+-- Nesse caso, estou adicionando essa lib para gerar uuid automático.
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+insert into usuario
+ (id, login, senha, email, roles)
+values
+ ( uuid_generate_v4(), 'gerente', '$2a$12$/WA7A3JTWaEbPjbQQ6NlcuPQfHqpxaWkvIdCjwtCnvqmXChC.nmKu', 'gerente@email.com', '{GERENTE}' );
+
+
+insert into client
+ (id, client_id, client_secret, redirect_uri, scope)
+ values
+ ( uuid_generate_v4(), 'client-production', '$2a$12$IqQeCy.QpIbD9zRFlsU3EudTGFNFnMkFDPj2MBRl817OS1KFVEjX.', 'http://localhost:8080/authorized', 'GERENTE' );
