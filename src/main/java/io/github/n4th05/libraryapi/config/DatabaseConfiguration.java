@@ -10,7 +10,10 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Configuration
+@Slf4j
 public class DatabaseConfiguration {
 
     @Value("${spring.datasource.url}")
@@ -43,7 +46,9 @@ public class DatabaseConfiguration {
 
     @Bean // HikariCP é um pool de conexões de alta performance. - Mais recomendado que o DriverManagerDataSource.
     public DataSource hikariDataSource() {
-        try{
+
+        log.info("Iniciando conexao com o Banco na URL: {}", url);
+
         HikariConfig config = new HikariConfig();
         config.setUsername(username);
         config.setPassword(password);
@@ -58,9 +63,6 @@ public class DatabaseConfiguration {
         config.setConnectionTestQuery("select 1"); // Query para testar a conexão.
         
         return new HikariDataSource(config);
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao configurar o HikariCP: " + e.getMessage(), e);
-        }
     }
 
 }

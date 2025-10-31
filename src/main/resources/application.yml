@@ -7,9 +7,9 @@ spring:
       ansi:
         enabled: ALWAYS
     datasource: 
-        url: jdbc:postgresql://localhost:5435/library
-        username: postgres
-        password: postgres
+        url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5435/library} # Aqui tem uma URL dentro de uma variável de ambiente, porque se der erro na conexão da respectiva variável que esteja usando no momento, ele usa essa URL como padrão.
+        username: ${DATASOURCE_USERNAME:postgres}
+        password: ${DATASOURCE_PASSWORD:postgres}
         driver-class-name: org.postgresql.Driver
     jpa:
         show-sql: true
