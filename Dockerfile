@@ -1,5 +1,5 @@
 # 1- build
-FROM maven:3.8.8-amazoncorretto-21-al2023 as build
+FROM maven:3.8.8-amazoncorretto-21-al2023 AS build
 
 #criando uma pasta chamada build:
 WORKDIR /build
@@ -30,4 +30,4 @@ ENV GOOGLE_CLIENT_SECRET='client_id'
 ENV SPRING_PROFILES_ACTIVE='production'
 ENV TZ='America/Sao_Paulo'
 
-ENTRYPOINT java -jar libraryapi.jar
+ENTRYPOINT ["java", "-jar", "libraryapi.jar"]
